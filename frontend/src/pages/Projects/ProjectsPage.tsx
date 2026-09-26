@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getProjects, createProject, updateProject } from '../../api/projects'
 import { getTeams } from '../../api/teams'
 import { useRole } from '../../context/RoleContext'
@@ -33,6 +34,7 @@ const EMPTY: Partial<Project> = {
 }
 
 export default function ProjectsPage() {
+  const navigate = useNavigate()
   const { isAdmin } = useRole()
   const [projects, setProjects] = useState<Project[]>([])
   const [teams, setTeams] = useState<Team[]>([])
@@ -97,7 +99,7 @@ export default function ProjectsPage() {
               <th className="text-left px-4 py-3 font-medium text-gray-600">Squads</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Members</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">End Date</th>
-              {isAdmin && <th className="px-4 py-3" />}
+             <th className="px-4 py-3" />
             </tr>
           </thead>
           <tbody>
@@ -115,11 +117,12 @@ export default function ProjectsPage() {
                 <td className="px-4 py-3 text-gray-600">{p.squad_count}</td>
                 <td className="px-4 py-3 text-gray-600">{p.employee_count}</td>
                 <td className="px-4 py-3 text-gray-500 text-xs">{p.end_date || '—'}</td>
-                {isAdmin && (
-                  <td className="px-4 py-3 text-right">
-                    <button onClick={() => openEdit(p)} className="text-xs text-blue-600 hover:underline">Edit</button>
-                  </td>
-                )}
+                <td className="px-4 py-3 text-right whitespace-nowrap">
+                  {isAdmin && (
+                    <button onClick={() => openEdit(p)} className="text-xs text-blue-600 hover:underline mr-3">Edit</button>
+                  )}
+                  <button onClick={() => navigate(`/projects/${p.id}/hub`)} className="text-xs text-indigo-600 hover:underline font-medium">Hub →</button>
+                </td>
               </tr>
             ))}
           </tbody>

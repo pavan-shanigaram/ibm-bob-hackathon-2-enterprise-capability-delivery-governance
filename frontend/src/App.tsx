@@ -8,6 +8,7 @@ import TeamsPage from './pages/Teams/TeamsPage'
 import SquadsPage from './pages/Squads/SquadsPage'
 import EmployeesPage from './pages/Employees/EmployeesPage'
 import ProjectsPage from './pages/Projects/ProjectsPage'
+import ProjectHubPage from './pages/Projects/ProjectHubPage'
 import CapabilityMatrixPage from './pages/Capabilities/CapabilityMatrixPage'
 import AuthorizationsPage from './pages/Authorizations/AuthorizationsPage'
 import DeliveryMetricsPage from './pages/Metrics/DeliveryMetricsPage'
@@ -38,6 +39,7 @@ export default function App() {
             <Route path="/squads" element={<SquadsPage />} />
             <Route path="/employees" element={<EmployeesPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:id/hub" element={<ProjectHubPage />} />
             <Route path="/capabilities" element={<CapabilityMatrixPage />} />
             <Route path="/authorizations" element={<AuthorizationsPage />} />
             <Route path="/metrics" element={<DeliveryMetricsPage />} />

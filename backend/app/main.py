@@ -35,12 +35,14 @@ def health_check():
 # Register routers
 from app.api import teams, squads, employees, skills, projects  # noqa: E402
 from app.api import authorizations, metrics, allocations, dashboard, ai, demo  # noqa: E402
+from app.api import project_hub  # noqa: E402
 
 app.include_router(teams.router, prefix="/api/v1")
 app.include_router(squads.router, prefix="/api/v1")
 app.include_router(employees.router, prefix="/api/v1")
 app.include_router(skills.router, prefix="/api/v1")
 app.include_router(projects.router, prefix="/api/v1")
+app.include_router(project_hub.router, prefix="/api/v1")
 app.include_router(authorizations.router, prefix="/api/v1")
 app.include_router(metrics.router, prefix="/api/v1")
 app.include_router(allocations.router, prefix="/api/v1")

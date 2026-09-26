@@ -200,3 +200,71 @@ export interface AIInsight {
   model?: string
   is_live_ai?: boolean
 }
+
+export type PhaseStatus = 'NotStarted' | 'InProgress' | 'Done' | 'Blocked'
+export type DependencyType = 'Blocker' | 'Parallel' | 'Sequential'
+export type DependencyStatus = 'Pending' | 'Resolved'
+
+export interface ProjectTeamPhase {
+  id: number
+  project_id: number
+  team_id: number
+  team_name: string
+  phase_name: string
+  planned_start?: string
+  planned_end?: string
+  status: PhaseStatus
+  notes?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface ProjectTeamDependency {
+  id: number
+  project_id: number
+  from_team_id: number
+  to_team_id: number
+  from_team_name: string
+  to_team_name: string
+  dependency_type: DependencyType
+  description?: string
+  status: DependencyStatus
+  due_date?: string
+  is_blocker: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface HubSquadMember {
+  employee_id: number
+  employee_name: string
+  role_in_squad: string
+  allocation_percentage: number
+}
+
+export interface HubSquad {
+  id: number
+  name: string
+  member_count: number
+  members: HubSquadMember[]
+}
+
+export interface HubTeam {
+  team_id: number
+  team_name: string
+  squads: HubSquad[]
+  phases: ProjectTeamPhase[]
+  is_blocked: boolean
+}
+
+export interface ProjectHub {
+  project_id: number
+  project_name: string
+  project_status: ProjectStatus
+  project_priority: ProjectPriority
+  health_indicator: HealthIndicator
+  start_date?: string
+  end_date?: string
+  teams: HubTeam[]
+  dependencies: ProjectTeamDependency[]
+}

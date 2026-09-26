@@ -11,3 +11,5 @@ from app.models.authorization import Authorization, AuthorizedSystem, Compliance
 from app.models.delivery_metric import DeliveryMetric  # noqa: F401
 from app.models.resource_allocation import ResourceAllocation  # noqa: F401
 from app.models.capability_requirement import CapabilityRequirement  # noqa: F401
+from app.models.project_team_phase import ProjectTeamPhase, PhaseStatus  # noqa: F401
+from app.models.project_team_dependency import ProjectTeamDependency, DependencyType, DependencyStatus  # noqa: F401

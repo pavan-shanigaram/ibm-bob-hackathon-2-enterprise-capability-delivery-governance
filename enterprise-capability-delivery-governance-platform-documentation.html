@@ -1,0 +1,817 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Enterprise Governance Platform — Documentation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #ffffff; }
+  .page { max-width: 960px; margin: 0 auto; padding: 40px 32px 80px; }
+
+  /* Header */
+  .doc-header { border-bottom: 2px solid #e5e7eb; padding-bottom: 28px; margin-bottom: 40px; }
+  .doc-header h1 { font-size: 26px; font-weight: 700; color: #1f2328; margin-bottom: 6px; }
+  .doc-header .subtitle { font-size: 13px; color: #57606a; margin-bottom: 16px; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-purple { background: #ede9fe; color: #6d28d9; }
+  .badge-amber { background: #fef9c3; color: #92400e; }
+  .badge-gray { background: #f3f4f6; color: #374151; }
+
+  /* Sections */
+  h2 { font-size: 18px; font-weight: 700; color: #1f2328; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #e5e7eb; }
+  h3 { font-size: 14px; font-weight: 700; color: #1f2328; margin: 28px 0 10px; }
+  h4 { font-size: 13px; font-weight: 600; color: #374151; margin: 18px 0 8px; }
+  p { margin-bottom: 10px; color: #374151; }
+
+  /* Architecture diagram */
+  .arch-diagram { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 28px; margin: 20px 0; }
+  .arch-layers { display: flex; flex-direction: column; gap: 10px; }
+  .arch-layer { display: flex; align-items: stretch; gap: 10px; }
+  .arch-label { width: 120px; min-width: 120px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #57606a; display: flex; align-items: center; }
+  .arch-boxes { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+  .arch-box { padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid; text-align: center; }
+  .arch-box-blue { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+  .arch-box-green { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+  .arch-box-purple { background: #faf5ff; border-color: #e9d5ff; color: #6d28d9; }
+  .arch-box-amber { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+  .arch-box-red { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+  .arch-box-gray { background: #f9fafb; border-color: #e5e7eb; color: #374151; }
+  .arch-arrow { text-align: center; color: #9ca3af; font-size: 18px; margin: 2px 0; }
+
+  /* Data model diagram */
+  .erd { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; margin: 20px 0; overflow-x: auto; }
+  .erd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; min-width: 700px; }
+  .erd-entity { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
+  .erd-entity-header { font-size: 11px; font-weight: 700; padding: 6px 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .erd-entity-body { font-size: 11px; color: #57606a; padding: 6px 10px; border-top: 1px solid #e5e7eb; }
+  .erd-entity-body div { padding: 1px 0; }
+  .erd-pk { color: #1d4ed8; font-weight: 600; }
+  .erd-fk { color: #7c5cd8; }
+
+  /* URL table */
+  .url-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .url-card { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+  .url-card .url-title { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 6px; }
+  .url-card .url-link { font-size: 13px; font-family: monospace; color: #3b82d4; word-break: break-all; }
+  .url-card .url-desc { font-size: 11px; color: #57606a; margin-top: 4px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 14px 0 24px; }
+  th { background: #f7f8fa; text-align: left; padding: 8px 12px; font-weight: 600; color: #374151; border: 1px solid #e5e7eb; }
+  td { padding: 7px 12px; border: 1px solid #e5e7eb; vertical-align: top; color: #374151; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .method { font-family: monospace; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+  .get { background: #dcfce7; color: #15803d; }
+  .post { background: #dbeafe; color: #1d4ed8; }
+  .put { background: #fef9c3; color: #92400e; }
+  .delete { background: #fef2f2; color: #991b1b; }
+  .path { font-family: monospace; font-size: 11.5px; color: #1f2328; }
+  .role-pill { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; background: #ede9fe; color: #6d28d9; white-space: nowrap; display: inline-block; margin: 1px; }
+  .role-any { background: #f3f4f6; color: #374151; }
+
+  /* Use cases */
+  .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .uc-card { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+  .uc-card .uc-module { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #57606a; margin-bottom: 6px; }
+  .uc-card .uc-title { font-size: 13px; font-weight: 700; color: #1f2328; margin-bottom: 8px; }
+  .uc-card ul { padding-left: 16px; }
+  .uc-card li { font-size: 12px; color: #374151; margin-bottom: 3px; }
+
+  /* RBAC */
+  .rbac-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0; }
+  .rbac-card { border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+  .rbac-card-header { padding: 8px 12px; font-size: 12px; font-weight: 700; }
+  .rbac-card-body { padding: 8px 12px; font-size: 11px; color: #374151; }
+  .rbac-card-body ul { padding-left: 14px; }
+  .rbac-card-body li { margin-bottom: 2px; }
+
+  /* Design spectrum */
+  .spectrum-row { display: flex; gap: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb; margin: 16px 0; }
+  .spectrum-cell { flex: 1; padding: 12px 14px; }
+  .spectrum-cell .s-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .spectrum-cell .s-value { font-size: 12px; font-weight: 600; }
+  .spectrum-cell .s-desc { font-size: 11px; color: #57606a; margin-top: 3px; }
+
+  /* Code block */
+  pre { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px 16px; font-size: 11.5px; font-family: monospace; overflow-x: auto; margin: 12px 0; color: #1f2328; line-height: 1.7; }
+
+  /* Info box */
+  .info-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 12.5px; color: #1e40af; }
+  .warn-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 12.5px; color: #92400e; }
+
+  /* Footer */
+  .doc-footer { margin-top: 64px; padding-top: 16px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  
+  <div class="doc-header">
+    <h1>Enterprise Capability &amp; Delivery Governance Platform</h1>
+    <div class="subtitle">IBM Bob Hackathon — Full-Stack Enterprise Governance Solution with IBM watsonx.ai</div>
+    <div class="badge-row">
+      <span class="badge badge-blue">Python 3.11 / FastAPI</span>
+      <span class="badge badge-blue">React 18 / TypeScript</span>
+      <span class="badge badge-green">MySQL 8</span>
+      <span class="badge badge-green">Docker Compose</span>
+      <span class="badge badge-purple">IBM watsonx.ai</span>
+      <span class="badge badge-purple">Granite 3.3 8B</span>
+      <span class="badge badge-amber">Tailwind CSS</span>
+      <span class="badge badge-gray">Auth0 JWT RBAC</span>
+    </div>
+  </div>
+
+  
+  <h2>Service URLs</h2>
+  <div class="url-grid">
+    <div class="url-card">
+      <div class="url-title">Frontend UI</div>
+      <div class="url-link">http://localhost:5173</div>
+      <div class="url-desc">React dashboard application</div>
+    </div>
+    <div class="url-card">
+      <div class="url-title">Backend API</div>
+      <div class="url-link">http://localhost:8000</div>
+      <div class="url-desc">FastAPI REST service</div>
+    </div>
+    <div class="url-card">
+      <div class="url-title">Swagger / OpenAPI Docs</div>
+      <div class="url-link">http://localhost:8000/docs</div>
+      <div class="url-desc">Interactive API explorer</div>
+    </div>
+    <div class="url-card">
+      <div class="url-title">Health Check</div>
+      <div class="url-link">http://localhost:8000/health</div>
+      <div class="url-desc">Service liveness endpoint</div>
+    </div>
+  </div>
+
+  
+  <h2>Frontend Pages &amp; Component URLs</h2>
+  <table>
+    <thead>
+      <tr><th>Page</th><th>URL</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Executive Dashboard</td><td class="path">http://localhost:5173/</td><td>Platform KPIs, charts, risk heatmap, AI insights summary</td></tr>
+      <tr><td>Teams</td><td class="path">http://localhost:5173/teams</td><td>View, create, edit and delete enterprise teams and leadership</td></tr>
+      <tr><td>Squads</td><td class="path">http://localhost:5173/squads</td><td>Scrum squad management, capacity planning, sprint assignments</td></tr>
+      <tr><td>Employees</td><td class="path">http://localhost:5173/employees</td><td>Employee directory, skill profiles, role assignments, utilisation</td></tr>
+      <tr><td>Projects</td><td class="path">http://localhost:5173/projects</td><td>Project portfolio — status, priority, health, squad/member counts</td></tr>
+      <tr><td>Project Hub</td><td class="path">http://localhost:5173/projects/:id/hub</td><td>Full project view: team breakdown, squads, members, timeline, dependencies</td></tr>
+      <tr><td>Capability Matrix</td><td class="path">http://localhost:5173/capabilities</td><td>Skill inventory, proficiency matrix, capability gap analysis</td></tr>
+      <tr><td>Authorizations</td><td class="path">http://localhost:5173/authorizations</td><td>System access compliance (GitHub, Azure DevOps, SAP, Salesforce, Production)</td></tr>
+      <tr><td>Delivery Metrics</td><td class="path">http://localhost:5173/metrics</td><td>Sprint velocity, story points, cycle time, delivery scores</td></tr>
+      <tr><td>Skill Gap Report</td><td class="path">http://localhost:5173/reports/skill-gaps</td><td>Skills missing by project, AI-generated hiring recommendations</td></tr>
+      <tr><td>Capacity Risk Report</td><td class="path">http://localhost:5173/reports/capacity</td><td>Over-allocated teams and employees, capacity risk flags</td></tr>
+      <tr><td>Delivery Bottlenecks</td><td class="path">http://localhost:5173/reports/bottlenecks</td><td>Squads with low velocity, high cycle time, repeated failures</td></tr>
+    </tbody>
+  </table>
+
+  
+  <h2>System Architecture</h2>
+  <div class="arch-diagram">
+    <div class="arch-layers">
+      <div class="arch-layer">
+        <div class="arch-label">Browser</div>
+        <div class="arch-boxes">
+          <div class="arch-box arch-box-blue">React 18 + TypeScript</div>
+          <div class="arch-box arch-box-blue">Vite Dev Server + HMR</div>
+          <div class="arch-box arch-box-amber">Tailwind CSS</div>
+          <div class="arch-box arch-box-amber">Recharts</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↓ Vite proxy /api/* and /demo/*</div>
+      <div class="arch-layer">
+        <div class="arch-label">API Layer</div>
+        <div class="arch-boxes">
+          <div class="arch-box arch-box-green">FastAPI (Python 3.11)</div>
+          <div class="arch-box arch-box-green">Pydantic v2 Schemas</div>
+          <div class="arch-box arch-box-green">Auth0 JWT + RBAC</div>
+          <div class="arch-box arch-box-green">Uvicorn ASGI</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↓ SQLAlchemy ORM + Alembic Migrations</div>
+      <div class="arch-layer">
+        <div class="arch-label">Database</div>
+        <div class="arch-boxes">
+          <div class="arch-box arch-box-purple">MySQL 8.0</div>
+          <div class="arch-box arch-box-purple">15 Tables</div>
+          <div class="arch-box arch-box-purple">2 Migrations</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↓ IBM Cloud REST API</div>
+      <div class="arch-layer">
+        <div class="arch-label">AI Layer</div>
+        <div class="arch-boxes">
+          <div class="arch-box arch-box-red">IBM watsonx.ai</div>
+          <div class="arch-box arch-box-red">Granite 3.3 8B Instruct</div>
+          <div class="arch-box arch-box-gray">Mock fallback (no key)</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↓ Docker Compose orchestration</div>
+      <div class="arch-layer">
+        <div class="arch-label">Infra</div>
+        <div class="arch-boxes">
+          <div class="arch-box arch-box-gray">governance_frontend :5173</div>
+          <div class="arch-box arch-box-gray">governance_backend :8000</div>
+          <div class="arch-box arch-box-gray">governance_db :3306</div>
+          <div class="arch-box arch-box-gray">migrate (one-shot)</div>
+          <div class="arch-box arch-box-gray">seed (one-shot)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <h2>Data Model Overview</h2>
+  <div class="erd">
+    <div class="erd-grid">
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#dbeafe;color:#1e40af">TEAM</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div>name (unique)</div>
+          <div>description</div>
+          <div class="erd-fk">FK lead_employee_id</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#dcfce7;color:#15803d">SQUAD</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div>name, capacity_points</div>
+          <div class="erd-fk">FK team_id</div>
+          <div class="erd-fk">FK scrum_master_id</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fef9c3;color:#92400e">EMPLOYEE</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div>name, email, role</div>
+          <div>allocation_pct, is_active</div>
+          <div class="erd-fk">FK team_id</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#faf5ff;color:#6d28d9">SQUAD_MEMBER</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK squad_id</div>
+          <div class="erd-fk">FK employee_id</div>
+          <div>role_in_squad, alloc%</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fff7ed;color:#c2410c">PROJECT</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div>name, status, priority</div>
+          <div>health_indicator</div>
+          <div class="erd-fk">FK owner_team_id</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#ecfdf5;color:#065f46">PROJECT_SQUAD_ASSIGN</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK project_id</div>
+          <div class="erd-fk">FK squad_id</div>
+          <div>assigned_at</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#ecfdf5;color:#065f46">PROJECT_EMP_ASSIGN</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK project_id</div>
+          <div class="erd-fk">FK employee_id</div>
+          <div>allocation%, role</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#f0f9ff;color:#0c4a6e">DELIVERY_METRIC</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK squad_id, project_id</div>
+          <div>velocity, score</div>
+          <div>cycle_time, story_pts</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fff1f2;color:#9f1239">AUTHORIZATION</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK employee_id</div>
+          <div>system, access_level</div>
+          <div>compliance_status</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fdf4ff;color:#7e22ce">SKILL</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div>name, category</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fdf4ff;color:#7e22ce">EMPLOYEE_SKILL</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK employee_id, skill_id</div>
+          <div>proficiency_level</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#f7fee7;color:#3f6212">RESOURCE_ALLOC</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK employee_id</div>
+          <div>period_start/end, %</div>
+          <div>is_over_allocated</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#f0fdf4;color:#14532d">CAPABILITY_REQ</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK project_id, skill_id</div>
+          <div>proficiency, headcount</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fff7ed;color:#9a3412">PROJ_TEAM_PHASE</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK project_id, team_id</div>
+          <div>phase_name, status</div>
+          <div>planned_start/end</div>
+        </div>
+      </div>
+      <div class="erd-entity">
+        <div class="erd-entity-header" style="background:#fef2f2;color:#991b1b">PROJ_TEAM_DEPEND</div>
+        <div class="erd-entity-body">
+          <div class="erd-pk">PK id</div>
+          <div class="erd-fk">FK project_id</div>
+          <div class="erd-fk">FK from_team, to_team</div>
+          <div>type, status, due_date</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <h2>Use Cases</h2>
+
+  <h3>Team &amp; Organisational Management</h3>
+  <div class="uc-grid">
+    <div class="uc-card">
+      <div class="uc-module">Teams</div>
+      <div class="uc-title">Enterprise Team Administration</div>
+      <ul>
+        <li>Create and manage enterprise teams with leads</li>
+        <li>View squad count and headcount per team</li>
+        <li>Edit team ownership and description</li>
+        <li>Delete teams (admin only)</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Squads</div>
+      <div class="uc-title">Agile Squad Management</div>
+      <ul>
+        <li>Create scrum squads under a team</li>
+        <li>Assign scrum master to a squad</li>
+        <li>Set sprint capacity in story points</li>
+        <li>Add and remove squad members with roles</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Employees</div>
+      <div class="uc-title">Employee Directory &amp; Profiling</div>
+      <ul>
+        <li>Browse employees with team and role filters</li>
+        <li>View employee utilisation percentage</li>
+        <li>Add skills with proficiency levels</li>
+        <li>Track squad membership count</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Employees</div>
+      <div class="uc-title">Resource Allocation Monitoring</div>
+      <ul>
+        <li>Record allocation periods per employee</li>
+        <li>Detect over-allocation automatically</li>
+        <li>View alerts for employees exceeding 100%</li>
+        <li>Filter allocations by employee</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Project Delivery &amp; Governance</h3>
+  <div class="uc-grid">
+    <div class="uc-card">
+      <div class="uc-module">Projects</div>
+      <div class="uc-title">Project Portfolio Management</div>
+      <ul>
+        <li>Create projects with status and priority</li>
+        <li>Track health indicator (Green / Amber / Red)</li>
+        <li>Assign squads and employees to projects</li>
+        <li>Filter projects by status, priority, owner team</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Project Hub</div>
+      <div class="uc-title">Team &amp; Squad Breakdown per Project</div>
+      <ul>
+        <li>View all teams involved in a project</li>
+        <li>See squads per team with member drill-down</li>
+        <li>Expand squads to view individual members and roles</li>
+        <li>Visual BLOCKED badge on teams with active blockers</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Project Hub</div>
+      <div class="uc-title">Workflow Timeline Management</div>
+      <ul>
+        <li>Define per-team phases for any project</li>
+        <li>Assign phases even if no squad is assigned yet</li>
+        <li>Track phase status: Not Started / In Progress / Done / Blocked</li>
+        <li>Set planned start and end dates per phase</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Project Hub</div>
+      <div class="uc-title">Inter-Team Dependency Tracking</div>
+      <ul>
+        <li>Record dependencies between any two teams in the system</li>
+        <li>Categorise as Blocker / Parallel / Sequential</li>
+        <li>Highlight blocker rows in red with left-border indicator</li>
+        <li>Mark dependencies as Resolved when cleared</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Capability &amp; Compliance</h3>
+  <div class="uc-grid">
+    <div class="uc-card">
+      <div class="uc-module">Capabilities</div>
+      <div class="uc-title">Capability Matrix &amp; Gap Analysis</div>
+      <ul>
+        <li>View employee-skill proficiency matrix</li>
+        <li>Identify skill gaps against project requirements</li>
+        <li>Track Beginner / Intermediate / Expert / Lead levels</li>
+        <li>Create new skills in the master catalogue</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Authorizations</div>
+      <div class="uc-title">System Access Compliance</div>
+      <ul>
+        <li>Grant access to: GitHub, AzureDevOps, SAP, Salesforce, Production</li>
+        <li>Track expiry dates and auto-flag expired access</li>
+        <li>Generate compliance report across systems and teams</li>
+        <li>Status: Compliant / Expired / PendingReview / Revoked</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Metrics</div>
+      <div class="uc-title">Delivery Performance Tracking</div>
+      <ul>
+        <li>Record sprint metrics per squad and project</li>
+        <li>Computed delivery score per sprint</li>
+        <li>View velocity trend over last N sprints</li>
+        <li>Track cycle time, lead time, defect leakage</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">Reports</div>
+      <div class="uc-title">Executive Reporting &amp; Insights</div>
+      <ul>
+        <li>Executive dashboard with top-level KPIs</li>
+        <li>Skill gap report by project</li>
+        <li>Capacity risk — over-allocated teams</li>
+        <li>Delivery bottleneck analysis</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>AI Intelligence (IBM watsonx.ai)</h3>
+  <div class="uc-grid">
+    <div class="uc-card">
+      <div class="uc-module">AI</div>
+      <div class="uc-title">Skill Gap Narrative</div>
+      <ul>
+        <li>Analyse missing skills for a specific project</li>
+        <li>Generate natural-language hiring recommendations</li>
+        <li>Powered by Granite 3.3 8B Instruct</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">AI</div>
+      <div class="uc-title">Delivery Coach</div>
+      <ul>
+        <li>Analyse sprint metrics for a squad</li>
+        <li>Generate sprint improvement suggestions</li>
+        <li>AI-driven velocity and quality guidance</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">AI</div>
+      <div class="uc-title">Risk Summary</div>
+      <ul>
+        <li>Aggregate platform-wide risk signals</li>
+        <li>Generate board-ready risk narrative</li>
+        <li>Suitable for executive stakeholder briefings</li>
+      </ul>
+    </div>
+    <div class="uc-card">
+      <div class="uc-module">AI</div>
+      <div class="uc-title">AI Health Check</div>
+      <ul>
+        <li>Verify watsonx.ai connectivity at any time</li>
+        <li>No auth required — open endpoint</li>
+        <li>Graceful mock fallback if no API key is set</li>
+      </ul>
+    </div>
+  </div>
+
+  
+  <h2>API Reference</h2>
+
+  <h3>Teams — /api/v1/teams</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/teams</td><td><span class="role-pill role-any">any</span></td><td>List all teams with squad and employee counts</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/teams/{id}</td><td><span class="role-pill role-any">any</span></td><td>Get single team detail</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/teams</td><td><span class="role-pill">platform_admin</span></td><td>Create new team</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/teams/{id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Update team</td></tr>
+      <tr><td><span class="method delete">DELETE</span></td><td class="path">/api/v1/teams/{id}</td><td><span class="role-pill">platform_admin</span></td><td>Delete team</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Squads — /api/v1/squads</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/squads</td><td><span class="role-pill role-any">any</span></td><td>List squads (filter: team_id)</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/squads</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Create squad</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/squads/{id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span><span class="role-pill">scrum_master</span></td><td>Update squad</td></tr>
+      <tr><td><span class="method delete">DELETE</span></td><td class="path">/api/v1/squads/{id}</td><td><span class="role-pill">platform_admin</span></td><td>Delete squad</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/squads/{id}/members</td><td><span class="role-pill role-any">any</span></td><td>List squad members</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/squads/{id}/members</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span><span class="role-pill">scrum_master</span></td><td>Add member</td></tr>
+      <tr><td><span class="method delete">DELETE</span></td><td class="path">/api/v1/squads/{id}/members/{emp_id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Remove member</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Employees — /api/v1/employees</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/employees</td><td><span class="role-pill role-any">any</span></td><td>List employees (filter: team_id)</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/employees</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Create employee</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/employees/{id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Update employee</td></tr>
+      <tr><td><span class="method delete">DELETE</span></td><td class="path">/api/v1/employees/{id}</td><td><span class="role-pill">platform_admin</span></td><td>Delete employee</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/employees/{id}/skills</td><td><span class="role-pill role-any">any</span></td><td>Get skills for employee</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/employees/{id}/skills</td><td><span class="role-pill role-any">any</span></td><td>Add skill to employee</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Projects — /api/v1/projects</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/projects</td><td><span class="role-pill role-any">any</span></td><td>List projects (filter: status, priority, team_id)</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/projects</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Create project</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/projects/{id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Update project</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/projects/{id}/squads</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Assign squads to project</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/projects/{id}/employees</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span><span class="role-pill">scrum_master</span></td><td>Assign employee to project</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Project Hub — /api/v1/projects/{id}/...</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Role</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/projects/{id}/hub</td><td><span class="role-pill role-any">any</span></td><td>Full hub: teams, squads, members, phases, dependencies</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/projects/{id}/phases</td><td><span class="role-pill role-any">any</span></td><td>List workflow phases for project</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/projects/{id}/phases</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Create phase</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/projects/{id}/phases/{phase_id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Update phase</td></tr>
+      <tr><td><span class="method delete">DELETE</span></td><td class="path">/api/v1/projects/{id}/phases/{phase_id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Delete phase</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/projects/{id}/dependencies</td><td><span class="role-pill role-any">any</span></td><td>List inter-team dependencies</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/projects/{id}/dependencies</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Create dependency</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/projects/{id}/dependencies/{dep_id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Update dependency</td></tr>
+      <tr><td><span class="method delete">DELETE</span></td><td class="path">/api/v1/projects/{id}/dependencies/{dep_id}</td><td><span class="role-pill">platform_admin</span><span class="role-pill">team_lead</span></td><td>Delete dependency</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Skills, Metrics, Allocations, Authorizations, Dashboard &amp; AI</h3>
+  <table>
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/skills</td><td>List all skills in master catalogue</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/skills</td><td>Add skill to catalogue</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/skills/matrix</td><td>Employee × skill proficiency matrix</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/skills/gaps</td><td>Skill gaps by project</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/metrics</td><td>List delivery metrics (filter: squad_id, project_id)</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/metrics</td><td>Record sprint metrics</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/metrics/squad/{id}/velocity-trend</td><td>Velocity trend for squad (last N sprints)</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/allocations</td><td>List resource allocations</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/allocations</td><td>Create allocation record</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/allocations/over-allocated</td><td>Over-allocation alerts</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/authorizations</td><td>List system access records</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/authorizations</td><td>Grant system access</td></tr>
+      <tr><td><span class="method put">PUT</span></td><td class="path">/api/v1/authorizations/{id}</td><td>Update authorization status</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/authorizations/compliance-report</td><td>Full compliance report by system</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/authorizations/check-expiries</td><td>Scan and flag expired access</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/dashboard/executive</td><td>Full executive dashboard payload</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/dashboard/reports/skill-gaps</td><td>Skill gap report</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/dashboard/reports/capacity-risk</td><td>Capacity risk report</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/dashboard/reports/delivery-bottlenecks</td><td>Delivery bottleneck analysis</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/api/v1/ai/health</td><td>watsonx.ai connectivity check (no auth)</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/ai/skill-gap-narrative</td><td>AI: hiring recommendations for project</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/ai/delivery-coach</td><td>AI: sprint improvement suggestions for squad</td></tr>
+      <tr><td><span class="method post">POST</span></td><td class="path">/api/v1/ai/risk-summary</td><td>AI: board-ready platform risk narrative</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/demo/summary</td><td>Platform KPI snapshot — no auth (demo)</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/demo/dashboard</td><td>Full dashboard payload — no auth (demo)</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/demo/teams</td><td>All teams with counts — no auth (demo)</td></tr>
+      <tr><td><span class="method get">GET</span></td><td class="path">/demo/ai-insights</td><td>AI insights — no auth (demo)</td></tr>
+    </tbody>
+  </table>
+
+  
+  <h2>Role-Based Access Control</h2>
+  <div class="rbac-grid">
+    <div class="rbac-card">
+      <div class="rbac-card-header" style="background:#dbeafe;color:#1e40af">platform_admin</div>
+      <div class="rbac-card-body">
+        <ul>
+          <li>Full CRUD on all entities</li>
+          <li>Delete teams, squads, employees</li>
+          <li>Manage authorizations</li>
+          <li>Manage phases and dependencies</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rbac-card">
+      <div class="rbac-card-header" style="background:#dcfce7;color:#15803d">team_lead</div>
+      <div class="rbac-card-body">
+        <ul>
+          <li>Manage own team's squads</li>
+          <li>Create and update projects</li>
+          <li>Assign squads and employees</li>
+          <li>Manage phases and dependencies</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rbac-card">
+      <div class="rbac-card-header" style="background:#fef9c3;color:#92400e">scrum_master</div>
+      <div class="rbac-card-body">
+        <ul>
+          <li>Update own squad</li>
+          <li>Add/remove squad members</li>
+          <li>Record sprint metrics</li>
+          <li>Assign employees to projects</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rbac-card">
+      <div class="rbac-card-header" style="background:#faf5ff;color:#6d28d9">employee</div>
+      <div class="rbac-card-body">
+        <ul>
+          <li>Read-only access to all data</li>
+          <li>View own profile</li>
+          <li>Add own skills</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rbac-card">
+      <div class="rbac-card-header" style="background:#f0f9ff;color:#0c4a6e">executive</div>
+      <div class="rbac-card-body">
+        <ul>
+          <li>Read-only dashboards</li>
+          <li>View all reports</li>
+          <li>Access AI insights</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rbac-card">
+      <div class="rbac-card-header" style="background:#fef2f2;color:#991b1b">security_admin</div>
+      <div class="rbac-card-body">
+        <ul>
+          <li>Manage system authorizations</li>
+          <li>Review compliance records</li>
+          <li>Trigger expiry checks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+  <h2>Design Spectrum</h2>
+  <h3>Technology Choices</h3>
+  <div class="spectrum-row">
+    <div class="spectrum-cell" style="background:#eff6ff;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#1d4ed8">Backend</div>
+      <div class="s-value">FastAPI + Python 3.11</div>
+      <div class="s-desc">Async REST, auto OpenAPI docs, Pydantic v2 validation</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f0fdf4;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#15803d">Database</div>
+      <div class="s-value">MySQL 8 + SQLAlchemy</div>
+      <div class="s-desc">Relational ORM, Alembic migrations, connection pooling</div>
+    </div>
+    <div class="spectrum-cell" style="background:#faf5ff;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#6d28d9">Frontend</div>
+      <div class="s-value">React 18 + Vite + TS</div>
+      <div class="s-desc">HMR dev server, Tailwind utility CSS, Recharts visualisation</div>
+    </div>
+    <div class="spectrum-cell" style="background:#fef2f2">
+      <div class="s-label" style="color:#991b1b">AI</div>
+      <div class="s-value">IBM watsonx.ai Granite</div>
+      <div class="s-desc">ibm/granite-3-3-8b-instruct, mock fallback, no-auth health check</div>
+    </div>
+  </div>
+
+  <h3>Data Model Complexity</h3>
+  <div class="spectrum-row">
+    <div class="spectrum-cell" style="background:#f7f8fa;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#57606a">Entities</div>
+      <div class="s-value">15 tables</div>
+      <div class="s-desc">Core domain models</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f7f8fa;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#57606a">Relations</div>
+      <div class="s-value">7 junction tables</div>
+      <div class="s-desc">N:N and enrichment joins</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f7f8fa;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#57606a">Migrations</div>
+      <div class="s-value">2 (versioned)</div>
+      <div class="s-desc">001 initial + 002 project hub</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f7f8fa">
+      <div class="s-label" style="color:#57606a">Seed data</div>
+      <div class="s-value">150+ employees</div>
+      <div class="s-desc">8 teams, 24 squads, 12 projects</div>
+    </div>
+  </div>
+
+  <h3>API Surface</h3>
+  <div class="spectrum-row">
+    <div class="spectrum-cell" style="background:#f7f8fa;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#57606a">Total endpoints</div>
+      <div class="s-value">45+ routes</div>
+      <div class="s-desc">Across 12 routers</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f7f8fa;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#57606a">Auth</div>
+      <div class="s-value">Auth0 JWT</div>
+      <div class="s-desc">6 RBAC roles, demo fallback</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f7f8fa;border-right:1px solid #e5e7eb">
+      <div class="s-label" style="color:#57606a">No-auth endpoints</div>
+      <div class="s-value">5 routes</div>
+      <div class="s-desc">/health + 4 /demo/* routes</div>
+    </div>
+    <div class="spectrum-cell" style="background:#f7f8fa">
+      <div class="s-label" style="color:#57606a">AI endpoints</div>
+      <div class="s-value">3 + health</div>
+      <div class="s-desc">Narrative, coach, risk, check</div>
+    </div>
+  </div>
+
+  
+  <h2>Docker Compose Services</h2>
+  <pre>governance_db       mysql:8.0          port 3306   — persistent volume
+governance_backend  python:3.11-slim   port 8000   — bind mount ./backend
+governance_frontend node:20-alpine     port 5173   — bind mount ./frontend
+governance_migrate  (one-shot)         alembic upgrade head
+governance_seed     (one-shot)         python seed/seed_data.py</pre>
+  <div class="info-box">
+    <strong>Port Forwarding (WSL2):</strong> If running inside WSL2, add Windows port proxies:<br />
+    <code>netsh interface portproxy add v4tov4 listenport=5173 listenaddress=0.0.0.0 connectport=5173 connectaddress=&lt;WSL_IP&gt;</code><br />
+    <code>netsh interface portproxy add v4tov4 listenport=8000 listenaddress=0.0.0.0 connectport=8000 connectaddress=&lt;WSL_IP&gt;</code>
+  </div>
+
+  
+  <h2>Quick Start</h2>
+  <pre>git clone https://github.com/pavan-shanigaram/ibm-bob-hackathon-2-enterprise-capability-delivery-governance.git
+cd ibm-bob-hackathon-2-enterprise-capability-delivery-governance
+cp .env.example .env
+# Clear AUTH0_DOMAIN= for demo mode, add DATABASE_URL for MySQL
+docker compose up --build -d</pre>
+  <div class="warn-box">
+    <strong>Demo Mode:</strong> Set <code>AUTH0_DOMAIN=</code> (empty) in .env to activate demo mode — all API calls are authenticated as <code>platform_admin</code> without requiring a real Auth0 token.
+  </div>
+
+  <div class="doc-footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>
